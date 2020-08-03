@@ -7,9 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
 
+	"go-gin-example/middleware/jwt"
 	"go-gin-example/models"
 	"go-gin-example/pkg/e"
 	"go-gin-example/pkg/settings"
+	"go-gin-example/routers/api"
 	v1 "go-gin-example/routers/api/v1"
 )
 
@@ -22,7 +24,10 @@ func InitRouter() *gin.Engine {
 	
 	gin.SetMode(settings.RunMode)
 	
+	r.GET("auth", api.GetAuth)
+	
 	apiv1 := r.Group("/api/v1")
+	apiv1.Use(jwt.JWT())
 	{
 		// 获取文章列表
 		apiv1.GET("/articles", v1.GetArticles)
@@ -44,7 +49,6 @@ func InitRouter() *gin.Engine {
 		// 删除指定标签
 		apiv1.DELETE("/tags/:id", v1.DeleteTag)
 	}
-
 	return r
 }
 

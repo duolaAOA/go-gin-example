@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"log"
 
 	"go-gin-example/pkg/settings"
 	"go-gin-example/routers"
@@ -10,14 +10,9 @@ import (
 
 func main() {
 	router := routers.InitRouter()
-	
-	s := &http.Server{
-		Addr: fmt.Sprintf("%d", settings.HTTPPort),
-		Handler: router,
-		ReadTimeout: settings.ReadTimeout,
-		WriteTimeout: settings.WriteTimeout,
-		MaxHeaderBytes: 1 << 20,
+	addr := fmt.Sprintf("0.0.0.0:%d", settings.HTTPPort)
+	log.Println("Ready to run http service on", addr)
+	if err := router.Run(addr); err != nil {
+		log.Fatal(err)
 	}
-
-	_ = s.ListenAndServe()
 }
