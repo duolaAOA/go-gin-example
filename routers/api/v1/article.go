@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/astaxie/beego/validation"
@@ -10,6 +9,7 @@ import (
 
 	"go-gin-example/models"
 	"go-gin-example/pkg/e"
+	"go-gin-example/pkg/logging"
 	"go-gin-example/pkg/settings"
 	"go-gin-example/util"
 )
@@ -32,7 +32,7 @@ func GetArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Error(err.Key, err.Message)
 		}
 	}
 
@@ -74,7 +74,7 @@ func GetArticles(c *gin.Context) {
 
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Error(err.Key, err.Message)
 		}
 	}
 
@@ -120,7 +120,7 @@ func AddArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Error(err.Key, err.Message)
 		}
 	}
 
@@ -185,7 +185,7 @@ func EditArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Error(err.Key, err.Message)
 		}
 	}
 
@@ -196,7 +196,7 @@ func EditArticle(c *gin.Context) {
 	})
 }
 
-//删除文章
+// 删除文章
 func DeleteArticle(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
 
@@ -213,7 +213,7 @@ func DeleteArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Error( err.Key, err.Message)
 		}
 	}
 
